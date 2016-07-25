@@ -48,6 +48,18 @@ class CoffeeScriptTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expected, $js, 'CoffeeScript should be rendered anyway.');
     }
 
+    public function testEchoResult()
+    {
+        $coffee = new CoffeeScript(__DIR__ . '/test.coffee');
+        ob_start();
+        echo $coffee;
+        $js = trim(ob_get_contents());
+        ob_end_clean();
+        $expected = trim(str_replace("\r", '', file_get_contents(__DIR__ . '/test.js')));
+
+        $this->assertSame($expected, $js, 'CoffeeScript should be rendered anyway.');
+    }
+
     public function testNonBareGetResult()
     {
         $coffee = new CoffeeScript(__DIR__ . '/test.coffee', false);
