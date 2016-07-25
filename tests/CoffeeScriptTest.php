@@ -1,13 +1,11 @@
 <?php
 
-use NodejsPhpFallback\NodejsPhpFallback;
 use NodejsPhpFallback\CoffeeScript;
 
 class CoffeeScriptWithoutNode extends CoffeeScript
 {
     public function compile()
     {
-        return;
     }
 }
 
@@ -53,8 +51,8 @@ class CoffeeScriptTest extends PHPUnit_Framework_TestCase
     public function testNonBareGetResult()
     {
         $coffee = new CoffeeScript(__DIR__ . '/test.coffee', false);
-        $js = preg_replace('/\s/', '', $coffee->getResult());
-        $expected = preg_replace('/\s/', '', '(function(){' . file_get_contents(__DIR__ . '/test.js') . '}).call(this);');
+        $js = preg_replace('/[\s_]/', '', $coffee->getResult());
+        $expected = preg_replace('/[\s_]/', '', '(function(){' . file_get_contents(__DIR__ . '/test.js') . '}).call(this);');
 
         $this->assertSame($expected, $js, 'CoffeeScript should be rendered in a function with node.');
     }
@@ -62,8 +60,8 @@ class CoffeeScriptTest extends PHPUnit_Framework_TestCase
     public function testNonBareGetResultWithoutNode()
     {
         $coffee = new CoffeeScriptWithoutNode(__DIR__ . '/test.coffee', false);
-        $js = preg_replace('/\s/', '', $coffee->getResult());
-        $expected = preg_replace('/\s/', '', '(function(){' . file_get_contents(__DIR__ . '/test.js') . '}).call(this);');
+        $js = preg_replace('/[\s_]/', '', $coffee->getResult());
+        $expected = preg_replace('/[\s_]/', '', '(function(){' . file_get_contents(__DIR__ . '/test.js') . '}).call(this);');
 
         $this->assertSame($expected, $js, 'CoffeeScript should be rendered in a function without node.');
     }
@@ -82,20 +80,20 @@ class CoffeeScriptTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultWithoutNode()
     {
-        $expected = trim(str_replace("\r", '', file_get_contents(__DIR__ . '/test.js')));
+        $expected = trim(preg_replace('/[\r_]/', '', file_get_contents(__DIR__ . '/test.js')));
         $coffee = new CoffeeScriptWithoutNode(__DIR__ . '/test.coffee');
-        $js = trim(str_replace(array("\r", "\t"), array('', '  '), $coffee->getResult()));
+        $js = trim(preg_replace('/[\r_]/', '', $coffee->getResult()));
 
         $this->assertSame($expected, $js, 'CoffeeScript should be rendered anyway.');
     }
 
     public function testWriteWithoutNode()
     {
-        $expected = trim(str_replace("\r", '', file_get_contents(__DIR__ . '/test.js')));
+        $expected = trim(preg_replace('/[\r_]/', '', file_get_contents(__DIR__ . '/test.js')));
         $coffee = new CoffeeScriptWithoutNode(__DIR__ . '/test.coffee');
         $file = sys_get_temp_dir() . '/test.js';
         $coffee->write($file);
-        $js = trim(str_replace("\r", '', file_get_contents($file)));
+        $js = trim(preg_replace('/[\r_]/', '', file_get_contents($file)));
         unlink($file);
 
         $this->assertSame($expected, $js, 'CoffeeScript should be rendered anyway.');
