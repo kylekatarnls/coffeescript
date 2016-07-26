@@ -29,7 +29,7 @@ $cssContents = $coffee->getCss();
 
 // Output to the browser:
 header('Content-type: text/javascript');
-echo $coffee->getResult();
+echo $coffee;
 
 // You can also get Coffee-Script code from a string:
 $coffee = new CoffeeScript('
