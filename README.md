@@ -24,8 +24,8 @@ $coffee = new CoffeeScript('path/to/my-coffee-script-file.coffee');
 // Output to a file:
 $coffee->write('path/to/my-js-file.js');
 
-// Get CSS contents:
-$cssContents = $coffee->getCss();
+// Get JS contents:
+$jsContents = $coffee->getResult();
 
 // Output to the browser:
 header('Content-type: text/javascript');
