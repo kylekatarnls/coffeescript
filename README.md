@@ -43,3 +43,9 @@ $jsContents = $coffee->getResult();
 // Pass false to the CoffeeScript constructor to wrap the rendered JS in a function, (else, the bare option is used):
 $coffee = new CoffeeScript('path/to/my-coffee-script-file.coffee', false);
 ```
+
+## Security contact information
+
+To report a security vulnerability, please use the
+[Tidelift security contact](https://tidelift.com/security).
+Tidelift will coordinate the fix and disclosure.
